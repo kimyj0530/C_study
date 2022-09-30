@@ -1,1 +1,6 @@
-# Codeup 1001 ~
+#include "stdio.h"
+
+int main(void){
+  printf("Hello World");
+  return 0;
+}
