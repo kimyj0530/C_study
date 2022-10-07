@@ -1,6 +1,6 @@
-// object_life_mecro
+// object_like_mecro
 #define NUM 100
-// funtion_life_mecro
+// funtion_like_mecro
 #define SUM(A,B) (A+B)
 #include "stdio.h"
 #define NUM 100
