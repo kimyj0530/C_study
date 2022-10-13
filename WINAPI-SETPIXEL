@@ -1,0 +1,53 @@
+/* WINAPI-SETPIXEL */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#include "windows.h"
+
+#define WIDTH         64
+#define HEIGHT         64
+#define IMAGE_SIZE     (WIDTH * HEIGHT)
+#define FPS         30
+#define SECOND        1000
+#define FRAME_DELAY    (SECOND / FPS)
+
+HWND current_console = NULL;
+HDC  current_device  = NULL;
+
+int main(void){
+    system("cls");
+
+    current_console = GetConsoleWindow();
+    if (NULL == current_console){
+        fprintf(stderr, "couldn't get current console handle.\n");
+        return (EXIT_FAILURE);
+    }
+
+    current_device = GetDC(current_console);
+    if (NULL == current_device){
+        fprintf(stderr, "couldn't get current console device context.\n");
+        return (EXIT_FAILURE);
+    }
+    
+    printf("\033[?25l");
+
+    while(true){
+        unsigned char r = 255;
+        unsigned char g = 255;
+        unsigned char b = 255;
+        COLORREF COLOR = RGB(r, g, b);
+
+        for(int i = 0; i < IMAGE_SIZE; i++){
+            int x = (i % WIDTH);
+            int y = (i / WIDTH);
+            SetPixelV(current_device, x, y, COLOR);
+        }
+        Sleep(FRAME_DELAY);
+    }
+
+    ReleaseDC(current_console, current_device);
+
+    return (EXIT_SUCCESS);
+}
