@@ -1,60 +1,40 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-void reverse(char arr[]) //문자열 역순 정렬
+void reverse(char arr[])	//계산이 편하도록 배열 역순정렬
 {
 	int len = strlen(arr);
-	for (int i = 0; i < len / 2; i++) 
-	{
+	for (int i = 0; i < len / 2; i++) {
 		char temp = arr[i];
 		arr[i] = arr[len - i - 1];
 		arr[len - i - 1] = temp;
 	}
 }
 
-int main() {
-	char A[10002] = { 0 };
-	char B[10002] = { 0 };
-	char res[10003] = { 0 };
-	int carry = 0; //자리수 올림
-	int len = 0;
-	scanf("%s %s", A, B);
+int main(void) {
+	char A[10002] = { 0 }, B[10002] = { 0 }, res[10003] = { 0 };
+	int carry = 0, i;	//carry는 받아올림
 
+	scanf("%s%s", A, B);
 	reverse(A);
 	reverse(B);
+	//더 긴 숫자의 길이 저장
+	int len = strlen(A) > strlen(B) ? strlen(A) : strlen(B);
 
-	if (strlen(A) > strlen(B)) //큰수 기준 
-	{
-		len = strlen(A);
+	for (i = 0; i < len; i++) {
+		//숫자로 변환해 받아올림과 함께 더한다
+		int sum = A[i] - '0' + B[i] - '0' + carry;
+		//A[i] 또는 B[i]가 null인 경우 불필요한 뺄셈이 발생하므로
+		//0 이상이 될 때까지 문자 0의 아스키 코드 값을 더한다
+		while (sum < 0) sum += '0';
+		if (sum > 9) carry = 1;	//받아올림
+		else carry = 0;
+		res[i] = sum % 10 + '0';	//받아올림 하고 남은 일의 자리 수의 아스키코드를 저장
 	}
-	else
-	{
-		len = strlen(B);
-	}
-
-	for (int i = 0; i < len; i++)
-	{
-		int sum = A[i] - '0' + B[i] - '0' + carry; //ASCII 코드 보며 이해할 것
-		if (sum < 0)//자리수가 다를경우(sum < 0) sum은 -'0'이 한번 더 계산됨(둘중하나는 NULL이므로)
-		{
-			sum += '0';//그런경우 +'0'을 해서 맞춰준다.
-		}
-		if (sum > 9)
-		{
-			carry = 1; //더한것이 9를 넘어가면 그 다음자리수 +1 해줘야하므로
-		}
-		else
-		{
-			carry = 0;
-		}
-		printf("A[%d] = %c , B[%d] = %c\n", i, A[i], i, B[i]);//시각화를 위한 코드
-		res[i] = sum % 10 +'0';
-	}
-	if (carry == 1)
-	{
-		res[len] = '1';
-	}
-	reverse(res); //180도 돌려놨던 것을 다시 180도 돌려 원상복구
+	if (carry == 1) res[len] = '1';	//가장 큰 자릿수에서 받아올림이 발생하면 배열의 마지막에 1을 추가
+	reverse(res);	//덧셈이 완료되었으니 역순으로 정렬해 원하는 값으로 복원
 	printf("%s", res);
+
 	return 0;
 }
