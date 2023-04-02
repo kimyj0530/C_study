@@ -1,4 +1,4 @@
-/* EXAMPLE : ARRAY DECAY */
+/* EXAMPLE : ARRAY DECAY */ 
 #include <stdio.h>
 #include <stdlib.h>
  
