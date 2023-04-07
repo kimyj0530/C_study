@@ -6,7 +6,7 @@ void Delay_Timer(uint32_t time) {
 }
 
 int main(void){
-	RCC->APB2ENR |= (1<<2); //0x4; //PortA 버스 탑승권 허용
+	RCC->APB2ENR |= (1<<2); //0x4; //PortA 버스 탑승권 허용 
 	GPIOA->CRL &= ~(1<<22); //~0x400000;
 	GPIOA->CRL |= (1<<20);//0x44144444; //PortA PA5 출력 설정
 
