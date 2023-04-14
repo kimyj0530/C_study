@@ -15,5 +15,5 @@ int main(void){
 			GPIOA-> BSRR |= 0x1<<5; // 0x00000020; //LED set
 		}
 	}
-	return 0;
+	return 0; 
 }
